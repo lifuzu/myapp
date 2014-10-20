@@ -1,0 +1,25 @@
+<ion-view title="Chat">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="list">
+      <div class="item item-avatar" ng-repeat="message in messages">
+        <img src="img/ionic.png" alt="{{message.time}}">
+        <h2>{{message.name}}</h2>
+        <p>{{message.message}}</p>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar align-title="left">
+	  <div class="item-input-inset" style="width: 100%">
+	    <label class="item-input-wrapper">
+	      <i class="icon placeholder-icon"></i>
+	      <input type="text" placeholder="Type Message Here.." ng-model="draft.message">
+	    </label>
+	    <button class="button button-positive" ng-click="sendMessage(draft)">
+	      Send
+	    </button>
+	  </div>
+  </ion-footer-bar>
+</ion-view>

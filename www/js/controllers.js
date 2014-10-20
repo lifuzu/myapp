@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -31,6 +31,12 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+  // Assign the messages statically
+  $scope.messages = [
+    { name: 'nameHelo', message: 'World!' },
+    { name: 'nameHero', message: 'World2!' }
+  ];
 })
 
 .controller('PlaylistsCtrl', function($scope) {
