@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['services'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, socket) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -31,12 +31,43 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+})
 
-  // Assign the messages statically
-  $scope.messages = [
-    { name: 'nameHelo', message: 'World!' },
-    { name: 'nameHero', message: 'World2!' }
-  ];
+.controller('ChatCtrl', function($scope, $state, socket) {
+  //Assign the messages statically
+  // $scope.messages = [
+  //   { name: 'nameHelo', message: 'World!' },
+  //   { name: 'nameHero', message: 'World2!' }
+  // ];
+
+  //Ensure they are authed first.
+  // if(Auth.currentUser() == null) {
+  //   $state.go('login');
+  //   return;
+  // }
+
+  //input models
+  $scope.draft = { message: '' };
+  $scope.channel = { name: '' };
+
+  //App info
+  $scope.channels = [];
+  $scope.listeningChannels = [];
+  $scope.activeChannel = null;
+  // $scope.userName = Auth.currentUser().name;
+  $scope.userName = "some.name";
+  $scope.messages = [];
+
+  socket.on('message:received', function messageReceived(message) {
+    $scope.messages.push(message);
+  });
+  $scope.sendMessage = function sendMessage(draft) {
+    if(!draft.message || draft.message == null || typeof draft == 'undefined' || draft.length == 0) {
+      return;
+    }
+    socket.emit('message:send', { message: draft.message, name: "Auth.name" });
+    $scope.draft.message = '';
+  };
 })
 
 .controller('PlaylistsCtrl', function($scope) {

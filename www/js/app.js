@@ -72,6 +72,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       views: {
         'menuContent' :{
           templateUrl: "templates/chat.html",
+          controller: 'ChatCtrl'
         }
       }
     });
