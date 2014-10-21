@@ -1,9 +1,9 @@
 angular.module('starter.controllers', ['services'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, socket) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, Auth) {
   // Form data for the login modal
   $scope.loginData = {};
-
+ 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -25,15 +25,25 @@ angular.module('starter.controllers', ['services'])
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
 
+    Auth.login($scope.loginData.name, $scope.loginData.password).then(function(data) {
+      console.log('auth passed')
+      if(data.success) {
+        console.log('auth was successful.')
+        $scope.closeLogin();
+        $state.go('app.chat')
+      } else {
+        alert('Username / Password not valid. Try again')
+      }
+    })
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+    // $timeout(function() {
+    //   $scope.closeLogin();
+    // }, 1000);
   };
 })
 
-.controller('ChatCtrl', function($scope, $state, socket) {
+.controller('ChatCtrl', function($scope, $state, socket, Auth) {
   //Assign the messages statically
   // $scope.messages = [
   //   { name: 'nameHelo', message: 'World!' },
@@ -41,10 +51,11 @@ angular.module('starter.controllers', ['services'])
   // ];
 
   //Ensure they are authed first.
-  // if(Auth.currentUser() == null) {
-  //   $state.go('login');
-  //   return;
-  // }
+  if(Auth.currentUser() == null) {
+    // $state.go('login');
+    login()
+    return;
+  }
 
   //input models
   $scope.draft = { message: '' };
