@@ -1,4 +1,4 @@
-var baseUrl = "http://localhost:3000/"
+var baseUrl = "http://lab.weimed.com:3001/"
 
 angular.module('services', [])
 
