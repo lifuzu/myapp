@@ -30,7 +30,7 @@ angular.module('starter.controllers', ['services'])
   };
 })
 
-.controller('ChatCtrl', function($scope, $state, socket, Auth) {
+.controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Auth) {
 
   //Ensure they are authed first.
   if(Auth.currentUser() == null) {
@@ -52,6 +52,8 @@ angular.module('starter.controllers', ['services'])
 
   socket.on('message:received', function messageReceived(message) {
     $scope.messages.push(message);
+    //Make the chat window scroll to the bottom
+    $ionicScrollDelegate.scrollBottom(true);
   });
   $scope.sendMessage = function sendMessage(draft) {
     if(!draft.message || draft.message == null || typeof draft == 'undefined' || draft.length == 0) {
