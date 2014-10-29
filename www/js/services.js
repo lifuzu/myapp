@@ -26,6 +26,40 @@ angular.module('services', [])
   };
 })
 
+.factory('Setting', function Setting($q, $http) {
+	var setting = JSON.parse(window.localStorage.getItem('setting') || '{}');
+
+	var syncup = function syncup(setting) {
+		var deferred = $q.defer();
+
+		var url = baseUrl + 'setting';
+		var data = setting;
+
+		$http.post(url, data).success(function(res) {
+			if(res.success && (res.success == true || res.success == "true")) {
+				setting = res.setting;
+				window.localStorage.setItem('setting', JSON.stringify(setting));
+				return deferred.resolve(res);
+			} else {
+				return deferred.resolve('Setting not be synced!');
+			}
+		}).error(function(error) {
+			deferred.reject(error);
+		})
+
+		return deferred.promise;
+	}
+
+	var get = function get() {
+		return setting;
+	}
+
+	return {
+		get: get,
+    syncup: syncup
+	};
+})
+
 .factory('Auth', function Auth($q, $http) {
   var user = null;
 

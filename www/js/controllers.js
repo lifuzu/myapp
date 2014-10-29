@@ -1,6 +1,37 @@
 angular.module('starter.controllers', ['services'])
 
-.controller('AppCtrl', function($scope, $state, Auth) {
+.controller('AppCtrl', function($scope, $ionicModal, $state, Auth) {
+// })
+
+// .controller('SettingCtrl', function($scope, $ionicModal, $state) {
+  // Form data for the setting modal
+  $scope.setting = {};
+
+  $ionicModal.fromTemplateUrl('templates/setting.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
 })
 
 .controller('LoginCtrl', function($scope, $state, Auth) {
@@ -33,10 +64,10 @@ angular.module('starter.controllers', ['services'])
 .controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Auth) {
 
   //Ensure they are authed first.
-  if(Auth.currentUser() == null) {
-    $state.go('login');
-    return;
-  }
+  // if(Auth.currentUser() == null) {
+  //   $state.go('login');
+  //   return;
+  // }
 
   //input models
   $scope.draft = { message: '' };

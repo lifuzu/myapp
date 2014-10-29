@@ -1,0 +1,20 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Nick Name</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModal()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="closeModal()">
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Nick Name Here" ng-model="setting.nickname">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">OK</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>
