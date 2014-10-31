@@ -1,9 +1,9 @@
 angular.module('starter.controllers', ['services'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $state, Auth) {
-// })
+})
 
-// .controller('SettingCtrl', function($scope, $ionicModal, $state) {
+.controller('SettingCtrl', function($scope, $ionicModal, $state) {
   // Form data for the setting modal
   $scope.setting = {};
 
