@@ -7,22 +7,28 @@ angular.module('starter.controllers', ['services'])
   // Form data for the setting modal
   $scope.setting = {};
 
-  $ionicModal.fromTemplateUrl('templates/setting.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+  function closeModal() {
+    if ($scope.modal) {
+      $scope.modal.remove();
+      delete $scope.modal;
+    }
+  }
 
   $scope.openModal = function() {
-    $scope.modal.show();
+    $ionicModal.fromTemplateUrl('templates/setting.html', function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    }, {
+      scope: $scope,
+      animation: 'slide-in-up'
+    });
   };
   $scope.closeModal = function() {
-    $scope.modal.hide();
+    closeModal();
   };
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
-    $scope.modal.remove();
+    closeModal();
   });
   // Execute action on hide modal
   $scope.$on('modal.hidden', function() {
