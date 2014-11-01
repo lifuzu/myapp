@@ -89,6 +89,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     //   controller: 'SettingCtrl'
     // });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/chat');
 });
 
