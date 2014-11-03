@@ -3,9 +3,9 @@ angular.module('starter.controllers', ['services'])
 .controller('AppCtrl', function($scope, $ionicModal, $state, Auth) {
 })
 
-.controller('SettingCtrl', function($scope, $ionicModal, $state) {
+.controller('SettingCtrl', function($scope, $ionicModal, Setting) {
   // Form data for the setting modal
-  $scope.setting = {};
+  $scope.setting = Setting.get();
 
   function closeModal() {
     if ($scope.modal) {
@@ -26,6 +26,18 @@ angular.module('starter.controllers', ['services'])
   $scope.closeModal = function() {
     closeModal();
   };
+  $scope.syncUp = function(setting) {
+    console.log('Doing sync', setting);
+    Setting.syncup(setting).then(function(data) {
+      if(data.success) {
+        console.log('Setting was syncing up.')
+        closeModal();
+      } else {
+        alert('Setting was NOT syncing up, try again!')
+      }
+    })
+  };
+
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
     closeModal();
@@ -67,7 +79,7 @@ angular.module('starter.controllers', ['services'])
   };
 })
 
-.controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Auth) {
+.controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Setting, $localstorage) {
 
   //Ensure they are authed first.
   // if(Auth.currentUser() == null) {
@@ -85,10 +97,11 @@ angular.module('starter.controllers', ['services'])
   $scope.activeChannel = null;
   // $scope.userName = Auth.currentUser().name;
   $scope.userName = "some.name";
-  $scope.messages = [];
+  $scope.messages = []; //$localstorage.getObject('messages');
 
   socket.on('message:received', function messageReceived(message) {
     $scope.messages.push(message);
+    //$localstorage.setObject('messages', $scope.messages);
     //Make the chat window scroll to the bottom
     $ionicScrollDelegate.scrollBottom(true);
   });
@@ -96,7 +109,7 @@ angular.module('starter.controllers', ['services'])
     if(!draft.message || draft.message == null || typeof draft == 'undefined' || draft.length == 0) {
       return;
     }
-    socket.emit('message:send', { message: draft.message, name: Auth.currentUser().name });
+    socket.emit('message:send', { message: draft.message, name: Setting.get().nickname || 'anonymous -> Setting Menu to set your nickname.' });
     $scope.draft.message = '';
   };
 })

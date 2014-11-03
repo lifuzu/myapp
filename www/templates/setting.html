@@ -1,14 +1,15 @@
 <ion-modal-view>
   <ion-header-bar>
-    <h1 class="title">Nick Name</h1>
+    <h1 class="title">Settings</h1>
     <div class="buttons">
       <button class="button button-clear" ng-click="closeModal()">Close</button>
     </div>
   </ion-header-bar>
   <ion-content>
-    <form ng-submit="closeModal()">
+    <form ng-submit="syncUp(setting)">
       <div class="list">
-        <label class="item item-input">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Nick Name</span>
           <input type="text" placeholder="Nick Name Here" ng-model="setting.nickname">
         </label>
         <label class="item">

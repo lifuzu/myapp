@@ -1,4 +1,5 @@
-var baseUrl = "http://lab.weimed.com:3001/"
+//var baseUrl = "http://lab.weimed.com:3001/"
+var baseUrl = "http://localhost:3000/"
 
 angular.module('services', [])
 
@@ -26,6 +27,23 @@ angular.module('services', [])
   };
 })
 
+.factory('$localstorage', ['$window', function($window) {
+  return {
+    set: function(key, value) {
+      $window.localStorage[key] = value;
+    },
+    get: function(key, defaultValue) {
+      return $window.localStorage[key] || defaultValue;
+    },
+    setObject: function(key, value) {
+      $window.localStorage[key] = JSON.stringify(value);
+    },
+    getObject: function(key) {
+      return JSON.parse($window.localStorage[key] || '{}');
+    }
+  }
+}])
+
 .factory('Setting', function Setting($q, $http) {
 	var setting = JSON.parse(window.localStorage.getItem('setting') || '{}');
 
@@ -33,7 +51,7 @@ angular.module('services', [])
 		var deferred = $q.defer();
 
 		var url = baseUrl + 'setting';
-		var data = setting;
+		var data = { setting: setting };
 
 		$http.post(url, data).success(function(res) {
 			if(res.success && (res.success == true || res.success == "true")) {
