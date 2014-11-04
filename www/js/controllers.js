@@ -101,10 +101,10 @@ angular.module('starter.controllers', ['services'])
   //$scope.messages = $localstorage.getObject('messages');
 
   socket.on('message:received', function messageReceived(message) {
-    $scope.messages.push(message);
+    $scope.messages.unshift(message);
     //$localstorage.setObject('messages', $scope.messages);
     //Make the chat window scroll to the bottom
-    $ionicScrollDelegate.scrollBottom(true);
+    //$ionicScrollDelegate.scrollBottom(true);
   });
   $scope.sendMessage = function sendMessage(draft) {
     if(!draft.message || draft.message == null || typeof draft == 'undefined' || draft.length == 0) {
