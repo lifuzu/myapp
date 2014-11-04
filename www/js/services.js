@@ -40,42 +40,53 @@ angular.module('services', [])
     },
     getObject: function(key) {
       return JSON.parse($window.localStorage[key] || '{}');
+    },
+    setObjectArray: function(key, value) {
+      var array = [];
+      array = JSON.parse($window.localStorage.getItem(key)) || [];
+      array.push(value);
+      $window.localStorage.setItem(key, JSON.stringify(array));
+    },
+    getObjectArray: function(key) {
+      var array = [];
+      array = JSON.parse($window.localStorage.getItem(key)) || [];
+      return array;
     }
   }
 }])
 
 .factory('Setting', function Setting($q, $http) {
-	var setting = JSON.parse(window.localStorage.getItem('setting') || '{}');
+  var setting = JSON.parse(window.localStorage.getItem('setting') || '{}');
 
-	var syncup = function syncup(setting) {
-		var deferred = $q.defer();
+  var syncup = function syncup(setting) {
+    var deferred = $q.defer();
 
-		var url = baseUrl + 'setting';
-		var data = { setting: setting };
+    var url = baseUrl + 'setting';
+    var data = { setting: setting };
 
-		$http.post(url, data).success(function(res) {
-			if(res.success && (res.success == true || res.success == "true")) {
-				setting = res.setting;
-				window.localStorage.setItem('setting', JSON.stringify(setting));
-				return deferred.resolve(res);
-			} else {
-				return deferred.resolve('Setting not be synced!');
-			}
-		}).error(function(error) {
-			deferred.reject(error);
-		})
+    $http.post(url, data).success(function(res) {
+      if(res.success && (res.success == true || res.success == "true")) {
+        setting = res.setting;
+        window.localStorage.setItem('setting', JSON.stringify(setting));
+        return deferred.resolve(res);
+      } else {
+        return deferred.resolve('Setting not be synced!');
+      }
+    }).error(function(error) {
+      deferred.reject(error);
+    })
 
-		return deferred.promise;
-	}
+    return deferred.promise;
+  }
 
-	var get = function get() {
-		return setting;
-	}
+  var get = function get() {
+    return setting;
+  }
 
-	return {
-		get: get,
+  return {
+    get: get,
     syncup: syncup
-	};
+  };
 })
 
 .factory('Auth', function Auth($q, $http) {
