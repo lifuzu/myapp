@@ -98,11 +98,11 @@ angular.module('starter.controllers', ['services'])
   // $scope.userName = Auth.currentUser().name;
   $scope.userName = "some.name";
   $scope.messages = [];
-  $scope.messages = $localstorage.getObjectArray('messages');
+  //$scope.messages = $localstorage.getObject('messages');
 
   socket.on('message:received', function messageReceived(message) {
     $scope.messages.push(message);
-    $localstorage.setObjectArray('messages', message);
+    //$localstorage.setObject('messages', $scope.messages);
     //Make the chat window scroll to the bottom
     $ionicScrollDelegate.scrollBottom(true);
   });
