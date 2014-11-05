@@ -79,7 +79,7 @@ angular.module('starter.controllers', ['services'])
   };
 })
 
-.controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Setting, $localstorage) {
+.controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Setting, $localstorage, $cordovaSQLite) {
 
   //Ensure they are authed first.
   // if(Auth.currentUser() == null) {
@@ -90,14 +90,14 @@ angular.module('starter.controllers', ['services'])
   // for opening a background db:
   // var db = $cordovaSQLite.openDB({ name: "my.db", bgType: 1 });
 
-  // $scope.execute = function() {
-  //   var query = "INSERT INTO test_table (data, data_num) VALUES (?,?)";
-  //   $cordovaSQLite.execute(db, query, ["test", 100]).then(function(res) {
-  //     console.log("insertId: " + res.insertId);
-  //   }, function (err) {
-  //     console.error(err);
-  //   });
-  // };
+  $scope.insert = function() {
+    var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
+    $cordovaSQLite.execute(db, query, ["hide", '100']).then(function(res) {
+      console.log("insertId: " + res.insertId);
+    }, function (err) {
+      console.error(err);
+    });
+  };
 
   //input models
   $scope.draft = { message: '' };
