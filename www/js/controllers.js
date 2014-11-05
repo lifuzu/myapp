@@ -87,6 +87,18 @@ angular.module('starter.controllers', ['services'])
   //   return;
   // }
 
+  // for opening a background db:
+  // var db = $cordovaSQLite.openDB({ name: "my.db", bgType: 1 });
+
+  // $scope.execute = function() {
+  //   var query = "INSERT INTO test_table (data, data_num) VALUES (?,?)";
+  //   $cordovaSQLite.execute(db, query, ["test", 100]).then(function(res) {
+  //     console.log("insertId: " + res.insertId);
+  //   }, function (err) {
+  //     console.error(err);
+  //   });
+  // };
+
   //input models
   $scope.draft = { message: '' };
   $scope.channel = { name: '' };
@@ -110,9 +122,14 @@ angular.module('starter.controllers', ['services'])
     if(!draft.message || draft.message == null || typeof draft == 'undefined' || draft.length == 0) {
       return;
     }
-    socket.emit('message:send', { message: draft.message, name: Setting.get().nickname || 'anonymous -> Setting Menu to set your nickname.' });
+    socket.emit('message:send', { message: draft.message, name: Setting.get().nickname || 'anonymous' });
     $scope.draft.message = '';
   };
+
+  socket.emit('user:joined', { name: Setting.get().nickname || 'anonymous'} );
+  socket.on('user:joined', function(user) {
+    $scope.messages.unshift(user);
+  })
 })
 
 .controller('PlaylistsCtrl', function($scope) {
