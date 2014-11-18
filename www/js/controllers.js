@@ -99,6 +99,19 @@ angular.module('starter.controllers', ['services'])
     });
   };
 
+  $scope.select = function(lastname) {
+    var query = "SELECT firstname, lastname FROM people WHERE lastname = ?";
+    $cordovaSQLite.execute(db, query, [lastname]).then(function(res) {
+      if(res.rows.length > 0) {
+        console.log("SELECTED -> " + res.rows.item(0).firstname + " " + res.rows.item(0).lastname);
+      } else {
+        console.log("No results found");
+      }
+    }, function (err) {
+      console.error(err);
+    });
+    }
+
   //input models
   $scope.draft = { message: '' };
   $scope.channel = { name: '' };
