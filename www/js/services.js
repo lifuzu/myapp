@@ -2,6 +2,8 @@
 var baseUrl = "http://localhost:3000/"
 
 angular.module('services', [])
+.value('USER', {})
+.value('SOCKET_URL', 'http://localhost:3000')
 
 .factory('socket', function socket($rootScope) {
   var socket = io.connect(baseUrl);

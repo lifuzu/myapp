@@ -4,9 +4,12 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="list">
-      <div class="item item-avatar" ng-repeat="message in messages">
+      <div class="item item-avatar" ng-repeat="message in messages track by $index">
         <img src="img/ionic.png" alt="{{message.time}}">
         <h2>{{message.name}}</h2>
+        <a ng-if="message.image">
+          <img ng-src="{{message.image}}">
+        </a>
         <div class="item-text-wrap">
           <p>{{message.message}}</p>
         </div>
