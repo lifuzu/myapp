@@ -89,11 +89,14 @@ angular.module('starter.controllers', ['services'])
 
   // for opening a background db:
   // var db = $cordovaSQLite.openDB({ name: "my.db", bgType: 1 });
+  var userid = uuid.v4();
 
   $scope.insert = function() {
     var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
     $cordovaSQLite.execute(db, query, ["hide", '100']).then(function(res) {
       console.log("insertId: " + res.insertId);
+      console.log("userId: " + userid);
+      swal({   title: "Sweet!", text: userid, imageUrl: "img/ionic.png" });
     }, function (err) {
       console.error(err);
     });
