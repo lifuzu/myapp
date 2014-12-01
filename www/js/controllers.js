@@ -79,7 +79,7 @@ angular.module('starter.controllers', ['services'])
   };
 })
 
-.controller('ChatCtrl', function($scope, $state, $ionicScrollDelegate, socket, Setting, $localstorage, $cordovaSQLite) {
+.controller('ChatCtrl', function($scope, $rootScope, $state, $ionicScrollDelegate, socket, Setting, $localstorage, $cordovaSQLite) {
 
   //Ensure they are authed first.
   // if(Auth.currentUser() == null) {
@@ -128,6 +128,18 @@ angular.module('starter.controllers', ['services'])
   $scope.messages = [];
   //$scope.messages = $localstorage.getObject('messages');
 
+  socket.on('event:incoming:image',function(data){
+    $scope.$apply(function(){
+      $scope.messages.unshift(data);
+    });
+  });
+  $rootScope.$on('event:file:selected', function(event, data) {
+    socket.emit('event:new:image', data);
+    $scope.$apply(function(){
+      $scope.messages.unshift(data);
+    });
+  });
+
   socket.on('message:received', function messageReceived(message) {
     $scope.messages.unshift(message);
     //$localstorage.setObject('messages', $scope.messages);
@@ -146,6 +158,14 @@ angular.module('starter.controllers', ['services'])
   socket.on('user:joined', function(user) {
     $scope.messages.unshift(user);
   })
+})
+
+.controller('HomeCtrl', function($scope, USER, $state) {
+  $scope.user = {};
+  $scope.next = function() {
+    USER.name = $scope.user.name;
+    $state.go('chat');
+  }
 })
 
 .controller('PlaylistsCtrl', function($scope) {

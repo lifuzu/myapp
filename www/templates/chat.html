@@ -9,9 +9,9 @@
         <img src="img/ionic.png" alt="{{message.time}}">
         <h2>{{message.name}}</h2>
         <p>November 05, 1955</p>
-        <a ng-if="message.image">
+        <!--<a ng-if="message.image">-->
           <img ng-src="{{message.image}}">
-        </a>
+        <!--</a>-->
         <div class="item item-body item-text-wrap">
           <img src="img/ionic.png" class="full-image">
           <p>{{message.message}}</p>
@@ -36,6 +36,7 @@
         </div>
       </div>
     </div>
+    <!-- <chat-list></chat-list> -->
   </ion-content>
   <ion-footer-bar align-title="left">
     <div class="item-input-inset" style="width: 100%">
@@ -49,6 +50,7 @@
       <button class="button button-positive" ng-click="insert(draft)">
         Insert
       </button>
+      <browse-file></browse-file>
     </div>
   </ion-footer-bar>
 </ion-view>

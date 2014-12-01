@@ -1,5 +1,5 @@
-var baseUrl = "http://lab.weimed.com:3001/"
-//var baseUrl = "http://localhost:3000/"
+//var baseUrl = "http://lab.weimed.com:3001/"
+var baseUrl = "http://localhost:3000/"
 
 angular.module('services', [])
 .value('USER', {})

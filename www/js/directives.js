@@ -1,5 +1,5 @@
 
-angular.module('com.weimed.chat.directives', [])
+angular.module('starter.directives', [])
 
 .directive('browseFile', ['$rootScope', 'USER', function($rootScope, USER) {
   return {
@@ -8,20 +8,20 @@ angular.module('com.weimed.chat.directives', [])
     restrict: 'AE',
     link: function(scope, elem, attrs) {
       scope.browseFile = function() {
-        document.getElementId('browseBtn').click();
+        document.getElementById('browseBtn').click();
       }
 
-      angular.element(document.getElementId('browseBtn')).on('change', function(e) {
+      angular.element(document.getElementById('browseBtn')).on('change', function(e) {
         var file = e.target.files[0];
-        angular.element(document.getElementId('browseBtn')).val('');
-        var fileReader = new fileReader();
+        angular.element(document.getElementById('browseBtn')).val('');
+        var fileReader = new FileReader();
         fileReader.onload = function(event) {
-          $rootScope.$broadcast('event:file:selected'. {image: event.target.result, sender: USER.name});
+          $rootScope.$broadcast('event:file:selected', {image: event.target.result, sender: USER.name});
         }
         fileReader.readAsDataURL(file);
       });
     },
-    templateUrl: 'view/browse-file.html'
+    templateUrl: 'templates/browse-file.html'
   }
 }])
 
@@ -33,6 +33,11 @@ angular.module('com.weimed.chat.directives', [])
     link: function(scope, elem, attrs) {
       var socket = io(SOCKET_URL);
       scope.message = [];
+      socket.on('event:incoming:image',function(data){
+        scope.$apply(function(){
+          scope.messages.unshift(data);
+        });
+      });
       $rootScope.$on('event:file:selected', function(event, data) {
         socket.emit('event:new:image', data);
         scope.$apply(function(){
@@ -40,6 +45,6 @@ angular.module('com.weimed.chat.directives', [])
         });
       });
     },
-    templateUrl: 'views/chat-list.html'
+    templateUrl: 'templates/chat-list.html'
   }
 }]);
