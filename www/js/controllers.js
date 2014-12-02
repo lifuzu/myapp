@@ -129,9 +129,7 @@ angular.module('starter.controllers', ['services'])
   //$scope.messages = $localstorage.getObject('messages');
 
   socket.on('event:incoming:image',function(data){
-    $scope.$apply(function(){
-      $scope.messages.unshift(data);
-    });
+    $scope.messages.unshift(data);
   });
   $rootScope.$on('event:file:selected', function(event, data) {
     socket.emit('event:new:image', data);
